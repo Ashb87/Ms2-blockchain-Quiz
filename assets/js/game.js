@@ -127,6 +127,7 @@ choices.forEach(choice => {
         setTimeout(() => {
             selectedChoice.parentElement.classList.remove(classToApply);
             getNewQuestion();
+            // Resets timer for each question to stop it going too fast
             clearInterval(update);
         }, 1000);
 
