@@ -6,7 +6,7 @@ const scoreText = document.getElementById("score");
 const timeleft = document.getElementById("timeleft");
 const progressBarFull = document.getElementById('progressBarFull');
 const loader = document.getElementById("loader");
-const loader = document.getElementById("game");
+const game = document.getElementById("game");
 //Points per score
 const CORRECT_BONUS = 10;
 //Numner of questions per game
@@ -82,7 +82,9 @@ getNewQuestion = () => {
         choice.innerText = currentQuestion['choice' + number];
     });
 
-    availableQuestions.splice(question.Index, 1);
+    availableQuestions.splice(questionIndex, 1);
+    time = 30;
+    update = setInterval("timer()", 1000);
     acceptingAnswers = true;
 };
 
@@ -112,14 +114,20 @@ choices.forEach(choice => {
         const classToApply =
             selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
         //Increments players score for choosing the right answers
+
+        if (classToApply === 'correct') {
+            incrementScore(CORRECT_BONUS);
+        }
+
         selectedChoice.parentElement.classList.add(classToApply);
 
-        selectedChoice.parentElement.classList.add('classToApply');
+        
 
         //Adds delay before next question and removes CSS styling to answers
         setTimeout(() => {
             selectedChoice.parentElement.classList.remove(classToApply);
             getNewQuestion();
+            clearInterval(update);
         }, 1000);
 
     });
